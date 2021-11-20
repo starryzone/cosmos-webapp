@@ -14,8 +14,8 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: #7585FF;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,4 +35,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+body {
+  background-color: #FDC2A0;
+}
+
+.below-the-fold {
+  padding: 31px;
+}
+
+.below-the-fold input {
+  padding: 19px;
+  font-size: 19px;
+}
+
+.App-header .messages {
+  font-size: 19px;
+  background-color: lightyellow;
+  padding: 13px;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  color: #1f1f1f;
+  min-width: 400px;
 }

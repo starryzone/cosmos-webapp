@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# Keplr signing ADR36
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo will be used to facilitate a Discord bot but can be helpful for anyone wanting to use the [Keplr wallet](https://www.keplr.app) to sign arbitrary messages and verify the signed document and public key.
 
-## Available Scripts
+There is a standard called [ADR36 for signed typed messages](https://github.com/cosmos/cosmos-sdk/blob/master/docs/architecture/adr-036-arbitrary-signature.md), and we'll get as close as we can to using this standard, except when the Keplr wallet limitation exist.
 
-In the project directory, you can run:
+## Using this repo
 
-### `yarn start`
+There is a server (ExpressJS) and a React frontend that communicate. This document is for the frontend.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Good idea to have NodeJS version >= `v14.17.0`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Let's also get `yarn` with:
 
-### `yarn test`
+    npm i -g yarn
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+First we install with:
 
-### `yarn build`
+    yarn
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    npm run start
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This will give you instructions in your Terminal or Command Prompt app.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## What's happening
 
-### `yarn eject`
+We are using the Keplr to sign a message using the private key stored in the wallet. This message will then be passed to the backend where it can be verified, and the backend can interact with a database / server / whatever and process as it pleases. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Helpful resources
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Keplr development](https://github.com/chainapsis/keplr-extension#dev)
+- [Ethereum concepts](https://github.com/ethereum/EIPs/blob/9a9c5d0abdaf5ce5c5dd6dc88c6d8db1b130e95b/EIPS/eip-4361.md#technical-decisions) about signed typed message from the "Sign-in with Ethereum" initiative.
+- [A draft implementation](https://github.com/cosmos/cosmjs/pull/847/files) from [Simon Warta](https://github.com/webmaster128) that may be helpful
+- [A test in CosmJS](https://github.com/cosmos/cosmjs/blob/bbd169d99b662816e11955fd7f1153238ce46b8a/packages/amino/src/secp256k1hdwallet.spec.ts#L246-L266) that elucidates signing and verifying using Amino
