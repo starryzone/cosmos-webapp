@@ -35,7 +35,7 @@ class App extends Component {
   }
 
   callBackendAPI = async () => {
-    const response = await fetch('http://localhost:5000/starry-backend');
+    const response = await fetch('https://queenbot.uc.r.appspot.com/starry-backend');
     const body = await response.json();
 
     if (response.status !== 200) {
