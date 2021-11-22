@@ -16,18 +16,31 @@ class App extends Component {
   chainId = "cosmoshub-4";
 
   state = {
-    data: null,
+    data: {
+      createdAt: null,
+      saganism: null
+    },
     client: null,
-    message: null,
+    message: '',
     messageLink: null,
-    keplrLoaded: false
+    keplrLoaded: false,
+    hasTravellerToken: false,
+    messageToSign: null
   };
 
   componentDidMount() {
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
     window.addEventListener('load', this.handleLoad);
+    const traveller = this.getTraveller()
+    if (traveller === null) {
+      this.setState({'message': "Can you check your Discord link again?\nWe were expecting details about your uniqueness, traveller."})
+    } else {
+      this.setState({hasTravellerToken: true})
+      this.callBackendAPI()
+        .then(res => {
+          this.setState({ data: res })
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   componentWillUnmount() {
@@ -35,14 +48,29 @@ class App extends Component {
   }
 
   callBackendAPI = async () => {
-    const response = await fetch('http://localhost:5000/starry-backend');
+    const travellerSessionToken = this.getTraveller()
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ traveller: travellerSessionToken })
+    };
+    const response = await fetch('https://queenbot.uc.r.appspot.com/starry-backend', requestOptions);
     const body = await response.json();
+    console.log('body', body);
+    if (body.saganism) {
+      this.setState({messageToSign: body.saganism})
+    }
 
     if (response.status !== 200) {
       throw Error(body.message)
     }
     return body;
   };
+
+  getTraveller() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('traveller');
+  }
 
   handleLoad = async () => {
     if (!window.keplr) {
@@ -70,7 +98,7 @@ class App extends Component {
       if (this.accounts === null) {
         this.setState({keplrLoaded: false});
         this.setState({message: 'Could not find accounts on Keplr wallet'});
-      } else {
+      } else if (this.accounts && this.state.hasTravellerToken) {
         this.setState({keplrLoaded: true});
       }
     }
@@ -81,7 +109,7 @@ class App extends Component {
     const signDoc = {
       msgs: [{
         type: 'starry-login',
-        value: 'my-unique-signing-message' // See the TODO in the backend about how we can fetch a unique Carl Sagan quote for them to sign and then double check that later on the backend after posting it there (currently not in this implementation)
+        value: this.state.messageToSign
       }],
       fee: {
         amount: [],
@@ -104,7 +132,7 @@ class App extends Component {
       );
       console.log('valid', valid);
       // Clear the messages area
-      this.setState({message: false});
+      this.setState({message: ''});
     } catch (e) {
       if (e.message === 'Request rejected') {
         this.setState({message: 'Rejected signing 🙅'});
@@ -124,13 +152,17 @@ class App extends Component {
   }
 
   render() {
+    let messages = this.state.message.split('\n').map(i => {
+      return <p key={i}>{i}</p>
+    });
+
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Bright and starry salutations</h1>
           <p className="App-subtitle">Let's get you logged in…</p>
           {this.state.message &&
-            <div className="messages">{this.state.message}</div>
+            <div className="messages">{messages}</div>
           }
           {this.state.messageLink &&
             <div className="messages-link"><a href={this.state.messageLink.href} target={this.state.messageLink.target}>{this.state.messageLink.text}</a></div>
@@ -139,7 +171,7 @@ class App extends Component {
         <div className="below-the-fold">
           <input type="submit" value="Sign-in with Keplr" onClick={this.signMessage.bind(this)} disabled={!this.state.keplrLoaded}/>
         </div>
-        <p className="App-intro">{this.state.data}</p>
+        <p className="App-intro">Click to sign this unique message: {this.state.data.saganism}</p>
       </div>
     );
   }
