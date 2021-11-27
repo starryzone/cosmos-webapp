@@ -24,7 +24,13 @@ This will give you instructions in your Terminal or Command Prompt app.
 
 ## What's happening
 
-We are using the Keplr to sign a message using the private key stored in the wallet. This message will then be passed to the backend where it can be verified, and the backend can interact with a database / server / whatever and process as it pleases. 
+We are using the Keplr to sign a message using the private key stored in the wallet. This message will then be passed to the backend where it can be verified, and the backend can interact with a database / server / whatever and process as it pleases.
+
+## Local development
+
+If you're running a local server, you can specify a custom Starry backend with:
+
+    env REACT_APP_STARRY_BACKEND='http://localhost:8080' npm run start
 
 ## Helpful resources
 

@@ -4,9 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const backendURL = process.env.REACT_APP_STARRY_BACKEND || 'https://queenbot.uc.r.appspot.com/starry-backend';
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App
+      backendURL={backendURL}
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );

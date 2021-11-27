@@ -18,7 +18,8 @@ class App extends Component {
   state = {
     data: {
       createdAt: null,
-      saganism: null
+      saganism: null,
+      other: null
     },
     client: null,
     message: '',
@@ -39,7 +40,9 @@ class App extends Component {
         .then(res => {
           this.setState({ data: res })
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.error(err);
+        });
     }
   }
 
@@ -54,16 +57,17 @@ class App extends Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ traveller: travellerSessionToken })
     };
-    const response = await fetch('https://queenbot.uc.r.appspot.com/starry-backend', requestOptions);
+    console.log('this.props.backendURL', this.props.backendURL);
+    const response = await fetch(`${this.props.backendURL}/starry-backend`, requestOptions);
+    if (response.status !== 200) {
+      return {other: `Couldn't find your info, my dear traveller with passport '${travellerSessionToken}'.`};
+    }
     const body = await response.json();
     console.log('body', body);
     if (body.saganism) {
       this.setState({messageToSign: body.saganism})
     }
 
-    if (response.status !== 200) {
-      throw Error(body.message)
-    }
     return body;
   };
 
@@ -152,7 +156,7 @@ class App extends Component {
   }
 
   render() {
-    let messages = this.state.message.split('\n').map(i => {
+    const frontendMessages = this.state.message.split('\n').map(i => {
       return <p key={i}>{i}</p>
     });
 
@@ -162,7 +166,7 @@ class App extends Component {
           <h1 className="App-title">Bright and starry salutations</h1>
           <p className="App-subtitle">Let's get you logged in…</p>
           {this.state.message &&
-            <div className="messages">{messages}</div>
+            <div className="messages">{frontendMessages}</div>
           }
           {this.state.messageLink &&
             <div className="messages-link"><a href={this.state.messageLink.href} target={this.state.messageLink.target}>{this.state.messageLink.text}</a></div>
@@ -171,7 +175,11 @@ class App extends Component {
         <div className="below-the-fold">
           <input type="submit" value="Sign-in with Keplr" onClick={this.signMessage.bind(this)} disabled={!this.state.keplrLoaded}/>
         </div>
-        <p className="App-intro">Click to sign this unique message: {this.state.data.saganism}</p>
+        { this.state.data.saganism ?
+          <p className="App-intro">Click to sign this unique message: {this.state.data.saganism}</p>
+          :
+          <p className="App-intro">{this.state.data.other}</p>
+        }
       </div>
     );
   }
