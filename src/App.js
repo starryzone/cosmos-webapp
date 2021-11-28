@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { serializeSignDoc } from "@cosmjs/amino";
-import { Secp256k1, Secp256k1Signature, sha256 } from "@cosmjs/crypto";
-import { fromBase64 } from "@cosmjs/encoding";
 import './App.css';
 
 class App extends Component {
@@ -25,8 +22,10 @@ class App extends Component {
     message: '',
     messageLink: null,
     keplrLoaded: false,
+    retrievedSaganism: false,
     hasTravellerToken: false,
-    messageToSign: null
+    messageToSign: null,
+    finished: false
   };
 
   componentDidMount() {
@@ -57,13 +56,15 @@ class App extends Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ traveller: travellerSessionToken })
     };
-    console.log('this.props.backendURL', this.props.backendURL);
+    console.log('backend URL', this.props.backendURL);
     const response = await fetch(`${this.props.backendURL}/starry-backend`, requestOptions);
     if (response.status !== 200) {
+      this.setState({retrievedSaganism: false})
       return {other: `Couldn't find your info, my dear traveller with passport '${travellerSessionToken}'.`};
+    } else {
+      this.setState({retrievedSaganism: true})
     }
     const body = await response.json();
-    console.log('body', body);
     if (body.saganism) {
       this.setState({messageToSign: body.saganism})
     }
@@ -78,7 +79,7 @@ class App extends Component {
 
   handleLoad = async () => {
     if (!window.keplr) {
-      this.setState({message: "Please install the Keplr extension"});
+      this.setState({message: "Could not find Keplr browser extension"});
       this.setState({messageLink: {
           text: "Please install the Keplr extension",
           href: "https://www.keplr.app",
@@ -127,16 +128,26 @@ class App extends Component {
 
     try {
       const { signed, signature } = await this.signer.signAmino(this.accounts[0].address, signDoc);
-      // TODO: here's where do we a post request to our backend, localhost:5000 with info
-      //   we'll copy the code stuffs below
-      const valid = await Secp256k1.verifySignature(
-        Secp256k1Signature.fromFixedLength(fromBase64(signature.signature)),
-        sha256(serializeSignDoc(signed)),
-        this.accounts[0].pubkey,
-      );
-      console.log('valid', valid);
-      // Clear the messages area
-      this.setState({message: ''});
+      const travellerSessionToken = this.getTraveller()
+
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          traveller: travellerSessionToken,
+          signed: signed,
+          signature: signature.signature,
+          publicKey: this.accounts[0].pubkey
+        })
+      };
+      const response = await fetch(`${this.props.backendURL}/keplr-signed`, requestOptions);
+      if (response.status !== 200) {
+        this.setState({message: 'Signature messed up.'});
+        return {other: `Couldn't verify your signed message, star gazer.`};
+      }
+      // Successful
+      this.setState({message: 'Success!\nYou may return to Discord and see the channels you\'ve unlocked.'});
+      this.setState({finished: true, retrievedSaganism: false });
     } catch (e) {
       if (e.message === 'Request rejected') {
         this.setState({message: 'Rejected signing 🙅'});
@@ -166,17 +177,19 @@ class App extends Component {
           <h1 className="App-title">Bright and starry salutations</h1>
           <p className="App-subtitle">Let's get you logged in…</p>
           {this.state.message &&
-            <div className="messages">{frontendMessages}</div>
-          }
-          {this.state.messageLink &&
-            <div className="messages-link"><a href={this.state.messageLink.href} target={this.state.messageLink.target}>{this.state.messageLink.text}</a></div>
+            <div className="messages">
+              {frontendMessages}
+              {this.state.messageLink &&
+                <div className="messages-link"><a href={this.state.messageLink.href} target={this.state.messageLink.target}>{this.state.messageLink.text}</a></div>
+              }
+            </div>
           }
         </header>
         <div className="below-the-fold">
-          <input type="submit" value="Sign-in with Keplr" onClick={this.signMessage.bind(this)} disabled={!this.state.keplrLoaded}/>
+          <input type="submit" value="Sign-in with Keplr" onClick={this.signMessage.bind(this)} disabled={!this.state.keplrLoaded || !this.state.retrievedSaganism}/>
         </div>
-        { this.state.data.saganism ?
-          <p className="App-intro">Click to sign this unique message: {this.state.data.saganism}</p>
+        { (this.state.data.saganism && this.state.retrievedSaganism && this.state.keplrLoaded && !this.state.finished) ?
+          <p className="App-intro">You're all set. Go ahead and sign, cosmonaut.</p>
           :
           <p className="App-intro">{this.state.data.other}</p>
         }
