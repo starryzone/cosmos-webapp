@@ -137,7 +137,7 @@ class App extends Component {
           traveller: travellerSessionToken,
           signed: signed,
           signature: signature.signature,
-          publicKey: this.accounts[0].pubkey
+          account: this.accounts[0]
         })
       };
       const response = await fetch(`${this.props.backendURL}/keplr-signed`, requestOptions);
