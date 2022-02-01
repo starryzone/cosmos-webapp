@@ -30,7 +30,7 @@ We are using the Keplr to sign a message using the private key stored in the wal
 
 If you're running a local server, you can specify a custom Starry backend with:
 
-    env REACT_APP_STARRY_BACKEND='http://localhost:8080' npm run start
+    env REACT_APP_STARRY_BACKEND=http://localhost:8080 npm run start
 
 ## Helpful resources
 
