@@ -78,6 +78,7 @@ class App extends Component {
       const prefixes = Object.keys(prefixToChainId)
       if (prefixes.includes(body.nativeToken)) {
         this.chainId = prefixToChainId[body.nativeToken]
+        await this.handleLoad()
       } else {
         console.warn('Did not understand the prefix', body.nativeToken)
       }
@@ -167,8 +168,8 @@ class App extends Component {
         return {other: `Couldn't verify your signed message, star gazer.`};
       }
       // Successful
-      this.setState({message: 'Success!\nYou may return to Discord and see the channels you\'ve unlocked.'});
-      this.setState({finished: true, retrievedSaganism: false });
+      this.setState({ message: 'Success!\nYou may return to Discord and see the channels you\'ve unlocked.'});
+      this.setState({ finished: true, retrievedSaganism: false });
     } catch (e) {
       if (e.message === 'Request rejected') {
         this.setState({message: 'Rejected signing 🙅'});
