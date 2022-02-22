@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 
+const prefixToChainId = {
+  juno: 'juno-1',
+  stars: 'stargaze-1'
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -59,14 +64,23 @@ class App extends Component {
     console.log('backend URL', this.props.backendURL);
     const response = await fetch(`${this.props.backendURL}/starry-backend`, requestOptions);
     if (response.status !== 200) {
-      this.setState({retrievedSaganism: false})
+      this.setState({ retrievedSaganism: false })
       return {other: `Couldn't find your info, my dear traveller with passport '${travellerSessionToken}'.`};
     } else {
-      this.setState({retrievedSaganism: true})
+      this.setState({ retrievedSaganism: true })
     }
     const body = await response.json();
     if (body.saganism) {
-      this.setState({messageToSign: body.saganism})
+      this.setState({ messageToSign: body.saganism })
+    }
+
+    if (body.hasOwnProperty('nativeToken') && body.nativeToken) {
+      const prefixes = Object.keys(prefixToChainId)
+      if (prefixes.includes(body.nativeToken)) {
+        this.chainId = prefixToChainId[body.nativeToken]
+      } else {
+        console.warn('Did not understand the prefix', body.nativeToken)
+      }
     }
 
     return body;
@@ -87,6 +101,13 @@ class App extends Component {
         }});
       this.setState({keplrLoaded: false});
     } else {
+      console.log()
+      // Thank you jhernandez for the tip
+      window.keplr.defaultOptions = {
+        sign: {
+          preferNoSetFee: true,
+        },
+      };
       // Enabling before using the Keplr is recommended.
       // This method will ask the user whether or not to allow access if they haven't visited this website.
       // Also, it will request user to unlock the wallet if the wallet is locked.
