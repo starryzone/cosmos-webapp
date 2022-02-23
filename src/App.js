@@ -102,7 +102,6 @@ class App extends Component {
         }});
       this.setState({keplrLoaded: false});
     } else {
-      console.log()
       // Thank you jhernandez for the tip
       window.keplr.defaultOptions = {
         sign: {
