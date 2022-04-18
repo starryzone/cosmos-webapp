@@ -167,7 +167,19 @@ class App extends Component {
         return {other: `Couldn't verify your signed message, star gazer.`};
       }
       // Successful
-      this.setState({ message: 'Success!\nYou may return to Discord and see the channels you\'ve unlocked.'});
+      const responseJson = await response.json()
+      window.hi = responseJson
+      // If no roles were added or removed, let them know
+      if (responseJson.success.added.length === 0 &&
+        responseJson.success.removed.length === 0) {
+        this.setState({ message: 'Thanks for signing!\nYour account did not gain or remove any roles this time, but you\'re up to date.'});
+      } else {
+        let message = 'Success!\n'
+        message += responseJson.success.added.length ? 'Added role(s): ' + responseJson.success.added.join(', ') + '\n' : ''
+        message += responseJson.success.removed.length ? 'Removed role(s): ' + responseJson.success.removed.join(', ') : ''
+        this.setState({ message});
+      }
+
       this.setState({ finished: true, retrievedSaganism: false });
     } catch (e) {
       if (e.message === 'Request rejected') {
