@@ -15,7 +15,7 @@
 
 .App-header {
   background-color: #7585FF;
-  min-height: 60vh;
+  min-height: 43vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,15 +37,11 @@
   }
 }
 
-body {
-  background-color: #FDC2A0;
-}
-
 .below-the-fold {
   padding: 31px;
 }
 
-.below-the-fold input {
+input {
   padding: 19px;
   font-size: 19px;
 }
@@ -58,4 +54,301 @@ body {
   border-radius: 6px;
   color: #1f1f1f;
   min-width: 400px;
+}
+
+.download-btn {
+  padding-top: 19px
+}
+
+.below-the-fold .messages {
+  font-size: 19px;
+  background-color: #fff;
+  padding: 13px;
+  border: 1px solid #1f1f1f;
+  border-radius: 6px;
+  color: #1f1f1f;
+  min-width: 600px;
+}
+
+div.starry-toc {
+  text-align: left;
+}
+
+div.starry-toc p {
+  font-size: 1.1em;
+  font-weight: normal;
+}
+
+div.starry-toc h2 {
+  font-size: 1.4em;
+}
+
+div.starry-toc h3 {
+  font-size: 1.3em;
+}
+
+div.starry-toc ul {
+  padding-left: 19px;
+}
+
+a {
+  color: #a4cde8;
+}
+
+.button.disabled:hover, .button.disabled > a {
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+.add-bot-button {
+  margin: 0 6px;
+}
+
+#github-buttons {
+  padding-top: 19px;
+  padding-bottom: 19px;
+}
+
+#github-buttons > div > div {
+  display: inline;
+  padding: 6px;
+}
+
+#github-buttons a {
+  color: #ffec5f;
+}
+
+.button:focus, .button:hover a {
+  color: #ffffff;
+}
+
+.bottom-part {
+  background-color: #4B56AC;
+  margin-bottom: 0px;
+  padding: 23px;
+}
+
+.bottom-part #tag {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+#footer-links {
+  text-align: center;
+  color: #ffffff;
+}
+
+.starry-communities .featured-title {
+  font-size: 23px;
+  padding: 0 6px 6px 6px;
+  border-radius: 19px;
+}
+
+.starry-communities .guild-container > img {
+  border-radius: 19px;
+}
+
+.starry-communities .cute-container {
+  background-color: rgba(245,136,204,0.9);
+  border-radius: 19px;
+}
+.starry-communities .guild-container {
+  width: 90%;
+  margin: 10px auto;
+  padding-top: 19px;
+}
+
+.starry-communities a {
+  color: #ffffff;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06rem;
+}
+
+.starry-communities a:hover {
+  color: #f7dd36;
+}
+
+.starry-communities .column > img {
+  width: 300px;
+}
+
+.starry-communities .column {
+  padding-bottom: 19px;
+}
+
+.starry-communities .cute-container:hover > div img {
+  border-radius: 19px;
+  border: 3px solid rgba(247,221,54,0.9);
+  animation: border-radius .6s ease-in;
+}
+
+.starry-communities .cute-container:hover a {
+  letter-spacing: 1px;
+  animation: letter-spacing .6s ease-in;
+}
+
+.guild-container {
+  position: relative;
+}
+
+.radial-halo {
+  background: radial-gradient(whitesmoke, transparent);
+  width: 100%;
+  height: 90%;
+  top: 19px;
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.starry-communities .cute-container:hover .radial-halo {
+  opacity: 0.3;
+  animation: opacity .6s;
+}
+
+span#open-source {
+  color: #b2f7ff;
+  font-size: 31px;
+  text-shadow: 1px 1px #0072f0;
+  display: block;
+}
+
+#github-button-container {
+  transform: scale(1.3);
+}
+
+#twofer .starry-container {
+  margin: 0 auto;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  padding: 19px;
+}
+
+#featured-grid {
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 63.9375em) {
+  #twofer .starry-container.column {
+    float: none;
+    margin-bottom: 19px;
+  }
+  #twofer .starry-container.starry-bonus {
+    margin-bottom: 6px;
+  }
+  h3 {
+    font-size: 1.6rem;
+  }
+  .starry-intro #cute-stars {
+    visibility: hidden;
+  }
+  .bottom-part #tag p {
+    font-size: 1rem;
+  }
+  span.keplr {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 64em) {
+  .starry-intro {
+    height: 420px;
+  }
+  #add-bot {
+    padding-top: 143px;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .starry-bonus {
+    background: transparent;
+    position: relative;
+  }
+  .starry-bonus #docs-circle {
+    background: radial-gradient(circle at 300px 600px, #F7DD09, #f7b636);
+
+    border-radius: 50%;
+    height: 500px;
+    width: 500px;
+    position: absolute;
+    top: -66%;
+    left: -3%;
+    z-index: -1;
+  }
+  .starry-communities h3 {
+    letter-spacing: 3px;
+    font-weight: 300;
+  }
+}
+
+.footer-container {
+  text-align: center;
+}
+
+.button a, body .signing input {
+  color: #0072f0;
+}
+
+.button img {
+  padding-left: 6px;
+}
+
+.starry-intro {
+  position: relative;
+}
+
+.starry-intro #cute-stars {
+  position: absolute;
+  bottom: 0;
+  left: 6%;
+  width: 35%;
+}
+
+.starry-deets-img {
+  border: 6px solid rgba(255,255,255,0.6);
+  border-radius: 6px;
+}
+
+.starry-deets > p {
+  padding-right: 6px;
+}
+
+.bluey {
+  font-weight: 666;
+  color: white;
+  text-shadow: 1px 1px #5865f2;
+}
+
+.bottom-part p {
+  font-size: 1.3rem;
+  font-weight: 333;
+}
+
+.bottom-part a:hover {
+  color: rgba(255,255,255,0.9);
+  animation: color .6s;
+}
+
+span.keplr {
+  background: linear-gradient(to right, rgba(85,187,242,0.6), rgba(126,99,245,0.6));
+  padding: 4px 6px;
+  color: white;
+  border-radius: 13px;
+  text-shadow: 1px 1px #7e63f5;
+}
+
+a#keplr-link:hover, .starry-deets a:hover {
+  letter-spacing: 1px;
+}
+
+.starry-deets a:hover {
+  color: whitesmoke;
+}
+
+.starry-deets a {
+  text-decoration: underline;
+  text-decoration-thickness: 0.06rem;
 }
