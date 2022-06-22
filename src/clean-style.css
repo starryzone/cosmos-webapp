@@ -1,0 +1,156 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Questrial&display=swap');
+
+.body-wrap {
+  background: linear-gradient(420deg, rgba(26,171,13,0.3), rgba(253,194,160,0.2));
+  padding: 1% 2%;
+}
+
+.body-wrap p {
+  font-size: 1.5em;
+  line-height: 1.2em;
+  margin-bottom: 25px;
+}
+
+* {
+  transition: all .2s ease-in-out;
+}
+
+.top-bar {
+  background-color: #4B56AC;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0px;
+}
+
+.top-bar-icon-links {
+  display: flex;
+}
+
+@media screen and (min-width:600px) {
+  .top-bar-icons {
+    font-size: 4em;
+  }
+
+  .top-bar-docs-link {
+    padding-right: 25px;
+  }
+
+  .top-bar-discord-link img {
+    padding-bottom: 15px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .top-bar-icons {
+    align-self: center;
+    font-size: 3.6em;
+  }
+  .top-bar-icons.fun {
+    display: none;
+  }
+
+  .top-bar-docs-link {
+    padding-right: 10px;
+  }
+
+  .top-bar-discord-link img {
+    display: none;
+  }
+  .starry-welcome {
+    font-size: 2.3rem;
+  }
+}
+
+.side-logos {
+  color: white;
+  font-size: 4em;
+}
+
+.top-bar-name {
+  color: white;
+  font-size:  4em;
+  font-weight:  bold;
+  font-family: 'Montserrat', bold, sans-serif;
+  color: white;
+}
+
+.top-bar-name:hover {
+  transform: scale(1.1);
+}
+
+.add-bot-button, .signing input {
+  border-radius: 50px;
+  background-color: white;
+  border: 2px solid #FC8AD0;
+  margin: 0 0 19px;
+  padding: 5px 20px 5px 30px;
+  color: black;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.add-bot-button img {
+  height: 40px;
+  width: auto;
+}
+
+.add-bot-button:hover {
+  transform: scale(1.1);
+}
+
+.starry-welcome {
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.starry-container {
+  border-radius: 15px;
+  color: white;
+  padding: 6px;
+  margin-top: 0.6%;
+  margin-bottom: 1.3%;
+}
+
+.starry-intro {
+  background: linear-gradient(#5f6dc7, rgba(134,151,246,0.9));
+}
+
+.fa-meteor {
+  font-size: 3em;
+  transition: all .2s ease-in-out;
+}
+
+.fa-meteor:hover {
+  transform: scale(1.1);
+}
+
+.starry-deets {
+  align-items: center;
+  background: linear-gradient(#CA70a9, #EB87CC);
+  display: flex;
+  justify-content: space-between;
+}
+
+.starry-deets img {
+  max-height: 200px;
+}
+
+@media screen and (max-width: 700px) {
+  .starry-deets {
+    flex-direction: column;
+  }
+
+  .starry-deets img {
+    padding-left: 0;
+  }
+}
+
+.starry-bonus {
+  background: linear-gradient(#d08b00, #f7b636);
+}
+
+.starry-communities {
+  background: linear-gradient(rgba(95,109,199,0.9), #8697f6);
+}
