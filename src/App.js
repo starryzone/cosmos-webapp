@@ -168,6 +168,7 @@ class App extends Component {
         })
       };
       const response = await fetch(`${this.props.backendURL}/keplr-signed`, requestOptions);
+
       if (response.status !== 200) {
         this.setState({message: 'Signature messed up.'});
         return {other: `Couldn't verify your signed message, star gazer.`};
@@ -180,6 +181,7 @@ class App extends Component {
       if (responseJson.success.added && responseJson.success.removed) {
         if (responseJson.success.added.length === 0 && responseJson.success.removed.length === 0) {
           this.setState({message: 'Thanks for signing!\nYour account did not gain or remove any roles this time, but you\'re up to date.'});
+          return;
         } else {
           message = 'Success!\n'
           message += responseJson.success.added.length ? 'Added role(s): ' + responseJson.success.added.join(', ') + '\n' : ''
@@ -190,7 +192,6 @@ class App extends Component {
       } else {
         console.warn('Interesting use case?')
       }
-
       this.setState({message});
       this.setState({finished: true, retrievedSaganism: false});
     } catch (e) {
@@ -212,9 +213,12 @@ class App extends Component {
   }
 
   render() {
-    const frontendMessages = this.state.message.split('\n').map(i => {
-      return <p key={i}>{i}</p>
-    });
+    let frontendMessages = ''
+    if (this.state.message) {
+      frontendMessages = this.state.message.split('\n').map(i => {
+        return <p key={i}>{i}</p>
+      });
+    }
 
     const svg = require('./assets/pencil-sign.svg')
     const star = require('./assets/star.png')
