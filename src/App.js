@@ -270,7 +270,7 @@ class App extends Component {
             <div id="add-bot" className="column large-7">
               <div className={"add-bot-button large button round-button"}>
                 <a
-                  href="https://discord.com/oauth2/authorize?client_id=912554498050891796&scope=applications.commands%20bot&permissions=8">Add
+                  href="https://discord.com/oauth2/authorize?client_id=912554498050891796&scope=applications.commands%20bot&permissions=268486720">Add
                   Bot
                   <img src={star.default} alt="yellow star"/>
                 </a>
